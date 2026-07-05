@@ -46,8 +46,8 @@ var (
 )
 
 func update() {
-	// Detect a fresh press of the space key (down this frame, up the last).
-	space := keyDown(sdl.SCANCODE_SPACE)
+	// Detect a fresh press of a start key — Space or Enter — (down this frame, up the last).
+	space := keyDown(sdl.SCANCODE_SPACE) || keyDown(sdl.SCANCODE_RETURN) || keyDown(sdl.SCANCODE_KP_ENTER)
 	spacePressed := space && !spaceDown
 	spaceDown = space
 
