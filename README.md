@@ -1,5 +1,7 @@
 # Boing! — Go port
 
+[![Latest release](https://img.shields.io/github/v/release/chrplr/boing-go)](https://github.com/chrplr/boing-go/releases/latest)
+
 **▶ Play it in your browser: <https://chrplr.github.io/boing-go/>**
 
 A Go re-implementation of the Pygame Zero game **Boing!** from *Code the Classics
