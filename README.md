@@ -12,8 +12,20 @@ Volume 1* (Raspberry Pi Press), built on
 [pgzgo](https://github.com/chrplr/pgzgo) harness.
 
 All images, sounds and music are embedded, so `go build` produces a single
-self-contained binary that needs no asset files at run time. Keyboard and gamepad
-are both supported.
+self-contained binary that needs no asset files at run time.
+
+## Controls
+
+One or two players (Pong-style). Keyboard only.
+
+**Title screen:** press **Up** for one player or **Down** for two, then **Space** / **Enter** to start.
+
+| Action   | Player 1 | Player 2 |
+|----------|----------|----------|
+| Bat up   | A or Up   | K |
+| Bat down | Z or Down | M |
+
+Press **Esc** to quit.
 
 ## Download
 
