@@ -6,7 +6,8 @@ the menu, and sub-stepped ball physics. It is the smallest of the ports, so it
 is a good place to see the core translation patterns without much surrounding
 machinery. The Go version is a faithful translation; the differences are
 mechanical consequences of Go's static typing, the lack of class inheritance,
-and swapping Pygame Zero for [go-sdl3](https://github.com/Zyko0/go-sdl3).
+and swapping Pygame Zero for [go-sdl3](https://github.com/Zyko0/go-sdl3), via the
+[pgzgo](https://github.com/chrplr/pgzgo) harness.
 
 ---
 
@@ -22,8 +23,8 @@ Python is a single 475-line module; the Go port splits it into small files:
 | `Bat` (+ AI) | `bat.go` |
 | `Impact` | `impact.go` |
 | `Actor` behaviour | `sprite.go` |
-| image blitting | `assets.go` |
-| `play_sound` / music | `audio.go` |
+| image blitting | pgzgo `Screen` (harness) |
+| `play_sound` / music | pgzgo `Audio` (harness) |
 | keyboard reading | `input.go` |
 
 ---
@@ -186,18 +187,17 @@ same idea.
 
 ---
 
-## 8. Framework specifics
+## 8. Framework: Pygame Zero → pgzgo (on go-sdl3)
 
-| Concern | Python (Pygame Zero) | Go (go-sdl3) |
+| Concern | Python (Pygame Zero) | Go (via pgzgo) |
 |---|---|---|
-| Anchor | `Actor` centre anchor | `Sprite.Draw` → `Assets.BlitCentred` |
-| Background/UI blit | `screen.blit("table", (0,0))` | `assets.Blit("table", 0, 0)` (top-left) |
-| Input | `keyboard.z`, `keyboard.space`, … | per-frame `sdl.GetKeyboardState()` snapshot |
-| Music | `music.play("theme")`, `set_volume(0.3)` | looping track in `Audio` |
-| Loop | `pgzrun.go()` | explicit `sdl.RunLoop` with ~60 FPS cap |
+| Anchor | `Actor` centre anchor | `Sprite.Draw` → `Screen.BlitCentred` |
+| Background/UI blit | `screen.blit("table", (0,0))` | `Screen.Blit("table", 0, 0)` (top-left) |
+| Input | `keyboard.z`, `keyboard.space`, … | `app.Keyboard.Held(sc)` snapshot |
+| Music | `music.play("theme")`, `set_volume(0.3)` | `Audio.PlayMusic` (pgzgo) |
+| Loop | `pgzrun.go()` | `app.Loop(update, draw)` (pgzgo, fixed-step) |
 
-Neither version uses a fixed-timestep accumulator: Pygame Zero runs the logic at
-its frame rate, and the Go loop simply caps to ~60 FPS, matching it.
+pgzgo's `app.Loop` drives both callbacks with a fixed-timestep, FPS-capped loop (introduced in pgzgo v0.4.0, which also keeps WASM builds from running too fast on high-refresh displays); Pygame Zero runs the logic at its own frame rate.
 
 ---
 
@@ -241,7 +241,7 @@ g.PlaySound("hit", 5)        // gameplay, muted during the demo
 | Vectors | already scalar `dx/dy` + `normalised` helper | (unchanged) |
 | List removal | reverse `del` → in-place slice filter | Go idiom |
 | Globals → params | global `game` → `g *Game` argument | avoids global coupling |
-| Framework | Pygame Zero → go-sdl3 (blit, input, mixer, loop) | library swap |
+| Framework | Pygame Zero → pgzgo (over go-sdl3) | library swap |
 
 Boing! is close to a one-to-one translation: the physics, AI, scoring, and state
 machine are line-by-line equivalent, and the only genuinely interesting
