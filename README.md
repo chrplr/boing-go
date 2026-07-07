@@ -29,6 +29,14 @@ Press **Esc** to quit.
 
 ![Keyboard controls for Boing](keyboard.svg)
 
+## How to play
+
+**It's Pong.** The ball bounces back and forth between two bats. Each player defends their own side: if the ball gets past your bat and off your edge of the screen, the other player scores a point. **First to 10 points wins.**
+
+**Getting started.** On the title screen press **Up** for a one-player game (you against the computer) or **Down** for two players, then **Space** / **Enter** to start.
+
+**Playing.** Move your bat up and down to keep the ball in play. Where the ball strikes the bat matters: hit it near the top or bottom edge and it flies off at a sharper angle, and the ball gets a little faster with every rally — so the longer a point lasts, the harder it is to return.
+
 ## Download
 
 Prebuilt, self-contained binaries — no install, no dependencies, assets embedded.
